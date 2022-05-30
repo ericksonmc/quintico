@@ -15,51 +15,63 @@ var App = function App() {
   var _React$useState5 = React.useState([{
     imagen: "/dist/images/signos/aries.png",
     checked: false,
-    code: 1
+    code: 1,
+    name: 'aries'
   }, {
     imagen: "/dist/images/signos/tauro.png",
     checked: false,
-    code: 2
+    code: 2,
+    name: 'tauro'
   }, {
     imagen: "/dist/images/signos/geminis.png",
     checked: false,
-    code: 3
+    code: 3,
+    name: 'geminis'
   }, {
     imagen: "/dist/images/signos/cancer.png",
     checked: false,
-    code: 4
+    code: 4,
+    name: 'cancer'
   }, {
     imagen: "/dist/images/signos/leo.png",
     checked: false,
-    code: 5
+    code: 5,
+    name: 'leo'
   }, {
     imagen: "/dist/images/signos/virgo.png",
     checked: false,
-    code: 6
+    code: 6,
+    name: 'virgo'
   }, {
     imagen: "/dist/images/signos/libra.png",
     checked: false,
-    code: 7
+    code: 7,
+    name: 'libra'
   }, {
-    imagen: "/dist/images/signos/escorpio.png",
+    imagen: "/dist/images/signos/escorpion.png",
     checked: false,
-    code: 8
+    code: 8,
+    name: 'escorpio'
   }, {
     imagen: "/dist/images/signos/sagitario.png",
     checked: false,
-    code: 9
+    code: 9,
+    name: 'sagitario'
   }, {
     imagen: "/dist/images/signos/capricornio.png",
     checked: false,
-    code: 10
+    code: 10,
+    name: 'capricornio'
   }, {
     imagen: "/dist/images/signos/acuario.png",
     checked: false,
-    code: 11
+    code: 11,
+    name: 'acuario'
   }, {
     imagen: "/dist/images/signos/piscis.png",
     checked: false,
-    code: 12
+    code: 12,
+    name: 'piscis'
   }]),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       signs = _React$useState6[0],
@@ -100,22 +112,41 @@ var App = function App() {
       return memo;
     }, []);
     setBets(bets.concat(selectedSigns));
-    handleClear();
+    handleClear(null);
   };
 
-  handleCheckSign = function handleCheckSign() {
+  var handleCheckSign = function handleCheckSign() {
     return signs.filter(function (item) {
       return item.checked;
     }).length > 0;
   };
 
-  handleClear = function handleClear() {
+  var handleClear = function handleClear(type) {
     var a = [].concat(_toConsumableArray(signs));
     a.forEach(function (item) {
       item.checked = false;
     });
     setSign(a);
     setCombination('');
+
+    if (type === 'complete') setBets([]);
+  };
+
+  var signName = function signName(code) {
+    console.log(code);
+    return signs.filter(function (sign) {
+      return sign.code == code;
+    })[0].name;
+  };
+
+  var sendBetData = function sendBetData() {
+    console.log({ jug: JSON.stringify(bets) });
+    fetch('/data-to-backend', {
+      method: 'POST',
+      body: JSON.stringify({ jug: bets })
+    }).then(function (res) {
+      handleClear('complete');
+    });
   };
 
   return React.createElement(
@@ -123,7 +154,7 @@ var App = function App() {
     null,
     React.createElement(
       'div',
-      { className: 'container' },
+      { className: 'container-cluid' },
       React.createElement(
         'div',
         { className: 'row justify-content-center' },
@@ -149,7 +180,7 @@ var App = function App() {
     ),
     random ? React.createElement(
       'div',
-      { className: 'container' },
+      { className: 'container-cluid' },
       React.createElement(
         'div',
         { className: 'row' },
@@ -163,37 +194,7 @@ var App = function App() {
         { className: 'row justify-content-center' },
         React.createElement(
           'div',
-          { className: 'col-md-2' },
-          React.createElement(
-            'div',
-            { className: 'list-draws' },
-            React.createElement(
-              'div',
-              { className: 'l-body' },
-              React.createElement(
-                'ul',
-                null,
-                categories.map(function (item, index) {
-                  return React.createElement(
-                    'li',
-                    { key: index },
-                    item.title,
-                    React.createElement('br', null),
-                    ' ',
-                    React.createElement(
-                      'strong',
-                      null,
-                      item.amount
-                    )
-                  );
-                })
-              )
-            )
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-md-6' },
+          { className: 'col-md-8' },
           React.createElement(
             'div',
             { className: 'content-combination' },
@@ -246,7 +247,7 @@ var App = function App() {
             { className: 'content-signs' },
             React.createElement(
               'div',
-              { className: 'row justify-content-center' },
+              { className: 'row text-center' },
               signs.map(function (sign, index) {
                 return React.createElement(
                   'div',
@@ -259,18 +260,22 @@ var App = function App() {
                     React.createElement(
                       'figure',
                       { className: sign.checked ? 'active' : '' },
-                      React.createElement('img', { src: sign.imagen, alt: sign.name, className: 'img-fluid' })
+                      React.createElement('img', { src: sign.imagen, alt: sign.name, className: 'img-responsive' })
                     )
                   )
                 );
               })
             ),
             React.createElement(
-              'button',
-              { className: 'btn btn-white', onClick: function onClick() {
-                  return handleSelectCombinations();
-                } },
-              'Agregar'
+              'div',
+              { className: 'row text-center' },
+              React.createElement(
+                'button',
+                { className: 'btn btn-primary', onClick: function onClick() {
+                    return handleSelectCombinations();
+                  } },
+                'Agregar'
+              )
             )
           )
         ),
@@ -338,7 +343,9 @@ var App = function App() {
                       React.createElement(
                         'td',
                         null,
-                        item.n
+                        item.n,
+                        ' ',
+                        signName(item.s)
                       ),
                       React.createElement(
                         'td',
@@ -348,6 +355,32 @@ var App = function App() {
                     );
                   })
                 )
+              )
+            )
+          ),
+          React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'div',
+              { className: 'col-xs-6 text-center' },
+              React.createElement(
+                'button',
+                { type: 'button', className: 'btn btn-warning', onClick: function onClick() {
+                    return handleClear('complete');
+                  } },
+                'Limpiar'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'col-xs-6 text-center' },
+              React.createElement(
+                'button',
+                { className: 'btn btn-primary', onClick: function onClick() {
+                    return sendBetData();
+                  } },
+                'Vender'
               )
             )
           )
