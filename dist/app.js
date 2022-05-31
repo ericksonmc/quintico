@@ -99,9 +99,18 @@ var App = function App() {
   };
 
   var handleSelectCombinations = function handleSelectCombinations() {
-    if (!combination) sweetAlert('Error', 'Debe Escoger una combination', 'warning');
-    if (combination.split('').length != 5) sweetAlert('Error', 'La combinacion deben ser 5 digitos', 'warning');
-    if (!handleCheckSign()) sweetAlert('Error', 'Debe seleccionar al menos un signo', 'warning');
+    if (!combination) {
+      sweetAlert('Error', 'Debe Escoger una combination', 'warning');
+      return;
+    }
+    if (combination.split('').length != 5) {
+      sweetAlert('Error', 'La combinacion deben ser 5 digitos', 'warning');
+      return;
+    }
+    if (!handleCheckSign()) {
+      sweetAlert('Error', 'Debe seleccionar al menos un signo', 'warning');
+      return;
+    }
 
     var selectedSigns = signs.filter(function (p) {
       return p.checked;
@@ -140,13 +149,33 @@ var App = function App() {
   };
 
   var sendBetData = function sendBetData() {
-    console.log({ jug: JSON.stringify(bets) });
+    console.log(prepareData());
     fetch('/data-to-backend', {
       method: 'POST',
-      body: JSON.stringify({ jug: bets })
+      body: prepareData()
     }).then(function (res) {
       handleClear('complete');
     });
+  };
+
+  var prepareData = function prepareData() {
+    var data = new FormData();
+    data.append('jug', JSON.stringify(bets));
+    data.append('action', 'recarga');
+    data.append('tipo', 'tuquintico');
+    data.append('monto', bets.reduce(function (memo, data) {
+      memo += parseFloat(data.m);return memo;
+    }, 0));
+    data.append('modo', 'web');
+    data.append('numero', '0');
+
+    return data;
+  };
+
+  var handleDelete = function handleDelete(index) {
+    a = [].concat(_toConsumableArray(bets));
+    a.splice(index, 1);
+    setBets(a);
   };
 
   return React.createElement(
@@ -330,6 +359,11 @@ var App = function App() {
                       'td',
                       null,
                       'Monto'
+                    ),
+                    React.createElement(
+                      'td',
+                      null,
+                      '\xA0'
                     )
                   )
                 ),
@@ -351,6 +385,13 @@ var App = function App() {
                         'td',
                         null,
                         item.m
+                      ),
+                      React.createElement(
+                        'td',
+                        null,
+                        React.createElement('i', { className: 'fa fa-trash', onClick: function onClick() {
+                            return handleDelete(index);
+                          } })
                       )
                     );
                   })

@@ -100,9 +100,18 @@ const App = () => {
   }
 
   const handleSelectCombinations = () => {
-    if (!combination) sweetAlert('Error', 'Debe Escoger una combination', 'warning')
-    if (combination.split('').length != 5) sweetAlert('Error', 'La combinacion deben ser 5 digitos', 'warning')
-    if (!handleCheckSign()) sweetAlert('Error', 'Debe seleccionar al menos un signo', 'warning')
+    if (!combination) {
+      sweetAlert('Error', 'Debe Escoger una combination', 'warning')
+      return
+    }
+    if (combination.split('').length != 5) {
+      sweetAlert('Error', 'La combinacion deben ser 5 digitos', 'warning')
+      return
+    }
+    if (!handleCheckSign()) {
+      sweetAlert('Error', 'Debe seleccionar al menos un signo', 'warning')
+      return
+    }
 
     const selectedSigns = signs
       .filter((p) => p.checked)
@@ -136,15 +145,37 @@ const App = () => {
   }
 
   const sendBetData = () => {
-    console.log({jug: JSON.stringify(bets)})
+    console.log(prepareData())
     fetch('/data-to-backend', {
       method: 'POST',
-      body: JSON.stringify({jug: bets})
+      body: prepareData()
     })
     .then((res)=>{
       handleClear('complete')
     })
   }
+
+  const prepareData = () => {
+    const data = new FormData();
+    data.append('jug', JSON.stringify(bets))
+    data.append('action', 'recarga')
+    data.append('tipo', 'tuquintico')
+    data.append('monto', bets.reduce((memo, data)=>{
+      memo += parseFloat(data.m); return memo;
+    },0))
+    data.append('modo', 'web')
+    data.append('numero','0')
+
+    return data;
+  }
+
+  const handleDelete = (index) => {
+    a = [...bets]
+    a.splice(index, 1)
+    setBets(a)
+  }
+
+  
 
 
 
@@ -224,6 +255,7 @@ const App = () => {
                       <tr>
                         <td>Combinacion</td>
                         <td>Monto</td>
+                        <td>&nbsp;</td>
                       </tr>
                     </thead>
                     <tbody>
@@ -232,6 +264,7 @@ const App = () => {
                           <tr key={index}>
                             <td>{item.n} {signName(item.s)}</td>
                             <td>{item.m}</td>
+                            <td><i className="fa fa-trash" onClick={() => handleDelete(index)}></i></td>
                           </tr>
                         )
                       })}
