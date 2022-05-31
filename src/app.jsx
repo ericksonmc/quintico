@@ -13,73 +13,73 @@ const App = () => {
   ])
   const [signs, setSign] = React.useState([
     {
-      imagen: "/dist/images/signos/aries.png",
+      imagen: "/dist/images/signos/esferas/aries.png",
       checked: false,
       code: 1,
       name: 'aries'
     },
     {
-      imagen: "/dist/images/signos/tauro.png",
+      imagen: "/dist/images/signos/esferas/tauro.png",
       checked: false,
       code: 2,
       name: 'tauro'
     },
     {
-      imagen: "/dist/images/signos/geminis.png",
+      imagen: "/dist/images/signos/esferas/geminis.png",
       checked: false,
       code: 3,
       name: 'geminis'
     },
     {
-      imagen: "/dist/images/signos/cancer.png",
+      imagen: "/dist/images/signos/esferas/cancer.png",
       checked: false,
       code: 4,
       name: 'cancer'
     },
     {
-      imagen: "/dist/images/signos/leo.png",
+      imagen: "/dist/images/signos/esferas/leo.png",
       checked: false,
       code: 5,
       name: 'leo'
     },
     {
-      imagen: "/dist/images/signos/virgo.png",
+      imagen: "/dist/images/signos/esferas/virgo.png",
       checked: false,
       code: 6,
       name: 'virgo'
     },
     {
-      imagen: "/dist/images/signos/libra.png",
+      imagen: "/dist/images/signos/esferas/libra.png",
       checked: false,
       code: 7,
       name: 'libra'
     },
     {
-      imagen: "/dist/images/signos/escorpion.png",
+      imagen: "/dist/images/signos/esferas/escorpio.png",
       checked: false,
       code: 8,
       name: 'escorpio'
     },
     {
-      imagen: "/dist/images/signos/sagitario.png",
+      imagen: "/dist/images/signos/esferas/sagitario.png",
       checked: false,
       code: 9,
       name: 'sagitario'
     },
     {
-      imagen: "/dist/images/signos/capricornio.png",
+      imagen: "/dist/images/signos/esferas/capricornio.png",
       checked: false,
       code: 10,
       name: 'capricornio'
     },
     {
-      imagen: "/dist/images/signos/acuario.png",
+      imagen: "/dist/images/signos/esferas/acuario.png",
       checked: false,
       code: 11,
       name: 'acuario'
     },
     {
-      imagen: "/dist/images/signos/piscis.png",
+      imagen: "/dist/images/signos/esferas/piscis.png",
       checked: false,
       code: 12,
       name: 'piscis'
@@ -87,21 +87,24 @@ const App = () => {
   ])
   const [combination, setCombination] = React.useState('')
   const [bets, setBets] = React.useState([])
-  const [drawInfo, setDrawInfo] = React.useState({monto: '', fecha: '', numero_sorteo: ''})
+  const [quintico, setQuintico] = React.useState({})
+  const [total, setTotal] = React.useState(0)
 
   React.useEffect(()=>{
-    let data = {
-      monto: document.getElementById('montoQuintico').textContent,
-      fecha: document.getElementById('fechaQuintico').textContent,
-      numero_sorteo: document.getElementById('montoQuintico').textContent
-    }
-    setDrawInfo(data)
-    console.log('data que danlui metio con java',drawInfo, data)
+    let info = JSON.parse(sessionStorage.getItem('info_quintico'))
+    setQuintico(info)
   },[])
+
+  React.useEffect(() => {
+    const totalPlays = bets.reduce((memo, data)=> {
+      memo += parseFloat(data.m);
+      return memo;
+    },0)
+    setTotal(totalPlays);
+  },[bets])
 
   const handleSelectSign = (index) => {
     const a = [...signs]
-    console.log(a, a[index].checked)
     a[index].checked = !a[index].checked
     setSign(a)
   }
@@ -128,7 +131,7 @@ const App = () => {
       .filter((p) => p.checked)
       .map((item) => { return item.code })
       .reduce((memo, data) => {
-        memo.push({ s: data, n: combination, m: 25 })
+        memo.push({ s: data, n: combination, m: quintico.monto_quintico })
         return memo;
       }, []);
     setBets(bets.concat(selectedSigns));
@@ -151,7 +154,6 @@ const App = () => {
   }
 
   const signName = (code) => {
-    console.log(code)
     return signs.filter((sign) => sign.code == code)[0].name
   }
 
@@ -166,7 +168,6 @@ const App = () => {
     })
     .then((res)=>{
       handleClear('complete')
-      console.log('complete plays')
     })
   }
 
@@ -175,9 +176,10 @@ const App = () => {
     data.append('jug', JSON.stringify(bets))
     data.append('action', 'recarga')
     data.append('tipo', 'tuquintico')
-    data.append('monto', bets.reduce((memo, data)=>{
-      memo += parseFloat(data.m); return memo;
-    },0))
+    data.append('cedula', document.getElementById('cedulaH').value())
+    data.append('telefono', document.getElementById('telefonoH').value())
+    data.append('banco_id', document.getElementById('bancoH').value())
+    data.append('monto', total)
     data.append('modo', 'web')
     data.append('numero','0')
 
@@ -254,9 +256,9 @@ const App = () => {
               <div className="content-plays">
                 <div className="draw-info">
                   <p>Tu Quintico</p>
-                  <p>Sorteo N# <span id="montoQuintico"> N_SORTEO_AQUI </span></p>
-                  <p>Fecha: <span id="fechaQuintico"> FECHA_AQUI </span></p>
-                  <p>Precio: <span id="montoQuintico"> MONTO_AQUI </span></p>
+                  <p>Sorteo # <span id="montoQuintico"> {quintico.sorteo_quintico} </span></p>
+                  <p>Fecha: <span id="fechaQuintico"> {quintico.fecha_sorteo_quintico} </span></p>
+                  <p>Precio: <span id="montoQuintico"> {parseFloat(quintico.monto_quintico)} Bs. </span></p>
                 </div>
 
                 <div className="plays">
@@ -281,7 +283,7 @@ const App = () => {
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td style={{with: '100%'}}>Total:</td>
+                        <td style={{with: '100%', textAlign: 'right'}}>Total: {total}</td>
                       </tr>
                     </tfoot>
                   </table>

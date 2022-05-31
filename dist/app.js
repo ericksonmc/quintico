@@ -13,62 +13,62 @@ var App = function App() {
       categories = _React$useState4[0];
 
   var _React$useState5 = React.useState([{
-    imagen: "/dist/images/signos/aries.png",
+    imagen: "/dist/images/signos/esferas/aries.png",
     checked: false,
     code: 1,
     name: 'aries'
   }, {
-    imagen: "/dist/images/signos/tauro.png",
+    imagen: "/dist/images/signos/esferas/tauro.png",
     checked: false,
     code: 2,
     name: 'tauro'
   }, {
-    imagen: "/dist/images/signos/geminis.png",
+    imagen: "/dist/images/signos/esferas/geminis.png",
     checked: false,
     code: 3,
     name: 'geminis'
   }, {
-    imagen: "/dist/images/signos/cancer.png",
+    imagen: "/dist/images/signos/esferas/cancer.png",
     checked: false,
     code: 4,
     name: 'cancer'
   }, {
-    imagen: "/dist/images/signos/leo.png",
+    imagen: "/dist/images/signos/esferas/leo.png",
     checked: false,
     code: 5,
     name: 'leo'
   }, {
-    imagen: "/dist/images/signos/virgo.png",
+    imagen: "/dist/images/signos/esferas/virgo.png",
     checked: false,
     code: 6,
     name: 'virgo'
   }, {
-    imagen: "/dist/images/signos/libra.png",
+    imagen: "/dist/images/signos/esferas/libra.png",
     checked: false,
     code: 7,
     name: 'libra'
   }, {
-    imagen: "/dist/images/signos/escorpion.png",
+    imagen: "/dist/images/signos/esferas/escorpio.png",
     checked: false,
     code: 8,
     name: 'escorpio'
   }, {
-    imagen: "/dist/images/signos/sagitario.png",
+    imagen: "/dist/images/signos/esferas/sagitario.png",
     checked: false,
     code: 9,
     name: 'sagitario'
   }, {
-    imagen: "/dist/images/signos/capricornio.png",
+    imagen: "/dist/images/signos/esferas/capricornio.png",
     checked: false,
     code: 10,
     name: 'capricornio'
   }, {
-    imagen: "/dist/images/signos/acuario.png",
+    imagen: "/dist/images/signos/esferas/acuario.png",
     checked: false,
     code: 11,
     name: 'acuario'
   }, {
-    imagen: "/dist/images/signos/piscis.png",
+    imagen: "/dist/images/signos/esferas/piscis.png",
     checked: false,
     code: 12,
     name: 'piscis'
@@ -87,24 +87,31 @@ var App = function App() {
       bets = _React$useState10[0],
       setBets = _React$useState10[1];
 
-  var _React$useState11 = React.useState({ monto: '', fecha: '', numero_sorteo: '' }),
+  var _React$useState11 = React.useState({}),
       _React$useState12 = _slicedToArray(_React$useState11, 2),
-      drawInfo = _React$useState12[0],
-      setDrawInfo = _React$useState12[1];
+      quintico = _React$useState12[0],
+      setQuintico = _React$useState12[1];
+
+  var _React$useState13 = React.useState(0),
+      _React$useState14 = _slicedToArray(_React$useState13, 2),
+      total = _React$useState14[0],
+      setTotal = _React$useState14[1];
 
   React.useEffect(function () {
-    var data = {
-      monto: document.getElementById('montoQuintico').textContent,
-      fecha: document.getElementById('fechaQuintico').textContent,
-      numero_sorteo: document.getElementById('montoQuintico').textContent
-    };
-    setDrawInfo(data);
-    console.log('data que danlui metio con java', drawInfo, data);
+    var info = JSON.parse(sessionStorage.getItem('info_quintico'));
+    setQuintico(info);
   }, []);
+
+  React.useEffect(function () {
+    var totalPlays = bets.reduce(function (memo, data) {
+      memo += parseFloat(data.m);
+      return memo;
+    }, 0);
+    setTotal(totalPlays);
+  }, [bets]);
 
   var handleSelectSign = function handleSelectSign(index) {
     var a = [].concat(_toConsumableArray(signs));
-    console.log(a, a[index].checked);
     a[index].checked = !a[index].checked;
     setSign(a);
   };
@@ -132,7 +139,7 @@ var App = function App() {
     }).map(function (item) {
       return item.code;
     }).reduce(function (memo, data) {
-      memo.push({ s: data, n: combination, m: 25 });
+      memo.push({ s: data, n: combination, m: quintico.monto_quintico });
       return memo;
     }, []);
     setBets(bets.concat(selectedSigns));
@@ -157,7 +164,6 @@ var App = function App() {
   };
 
   var signName = function signName(code) {
-    console.log(code);
     return signs.filter(function (sign) {
       return sign.code == code;
     })[0].name;
@@ -175,7 +181,6 @@ var App = function App() {
       body: prepareData()
     }).then(function (res) {
       handleClear('complete');
-      console.log('complete plays');
     });
   };
 
@@ -184,9 +189,10 @@ var App = function App() {
     data.append('jug', JSON.stringify(bets));
     data.append('action', 'recarga');
     data.append('tipo', 'tuquintico');
-    data.append('monto', bets.reduce(function (memo, data) {
-      memo += parseFloat(data.m);return memo;
-    }, 0));
+    data.append('cedula', document.getElementById('cedulaH').value());
+    data.append('telefono', document.getElementById('telefonoH').value());
+    data.append('banco_id', document.getElementById('bancoH').value());
+    data.append('monto', total);
     data.append('modo', 'web');
     data.append('numero', '0');
 
@@ -346,11 +352,13 @@ var App = function App() {
               React.createElement(
                 'p',
                 null,
-                'Sorteo N# ',
+                'Sorteo # ',
                 React.createElement(
                   'span',
                   { id: 'montoQuintico' },
-                  ' N_SORTEO_AQUI '
+                  ' ',
+                  quintico.sorteo_quintico,
+                  ' '
                 )
               ),
               React.createElement(
@@ -360,7 +368,9 @@ var App = function App() {
                 React.createElement(
                   'span',
                   { id: 'fechaQuintico' },
-                  ' FECHA_AQUI '
+                  ' ',
+                  quintico.fecha_sorteo_quintico,
+                  ' '
                 )
               ),
               React.createElement(
@@ -370,7 +380,9 @@ var App = function App() {
                 React.createElement(
                   'span',
                   { id: 'montoQuintico' },
-                  ' MONTO_AQUI '
+                  ' ',
+                  parseFloat(quintico.monto_quintico),
+                  ' Bs. '
                 )
               )
             ),
@@ -438,8 +450,9 @@ var App = function App() {
                     null,
                     React.createElement(
                       'td',
-                      { style: { with: '100%' } },
-                      'Total:'
+                      { style: { with: '100%', textAlign: 'right' } },
+                      'Total: ',
+                      total
                     )
                   )
                 )
