@@ -145,13 +145,17 @@ const App = () => {
   }
 
   const sendBetData = () => {
-    console.log(prepareData())
-    fetch('/data-to-backend', {
+    let copyBets = [...bets]
+    copyBets.map((bet, i) => bet.i = i)
+    setBets(copyBets)
+
+    fetch('../palmera.jsp', {
       method: 'POST',
       body: prepareData()
     })
     .then((res)=>{
       handleClear('complete')
+      console.log('complete plays')
     })
   }
 
@@ -175,13 +179,8 @@ const App = () => {
     setBets(a)
   }
 
-  
-
-
-
   return (
     <section>
-
       <div className="container-cluid">
         <div className="row justify-content-center">
           <div className="btn-group" role="group" aria-label="Basic example">
@@ -250,7 +249,7 @@ const App = () => {
                 </div>
 
                 <div className="plays">
-                  <table className="table tableFixHead">
+                  <table id="tablePlays" className="table tableFixHead">
                     <thead>
                       <tr>
                         <td>Combinacion</td>

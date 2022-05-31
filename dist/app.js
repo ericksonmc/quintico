@@ -149,12 +149,18 @@ var App = function App() {
   };
 
   var sendBetData = function sendBetData() {
-    console.log(prepareData());
-    fetch('/data-to-backend', {
+    var copyBets = [].concat(_toConsumableArray(bets));
+    copyBets.map(function (bet, i) {
+      return bet.i = i;
+    });
+    setBets(copyBets);
+
+    fetch('../palmera.jsp', {
       method: 'POST',
       body: prepareData()
     }).then(function (res) {
       handleClear('complete');
+      console.log('complete plays');
     });
   };
 
@@ -343,7 +349,7 @@ var App = function App() {
               { className: 'plays' },
               React.createElement(
                 'table',
-                { className: 'table tableFixHead' },
+                { id: 'tablePlays', className: 'table tableFixHead' },
                 React.createElement(
                   'thead',
                   null,
