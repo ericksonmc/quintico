@@ -176,6 +176,7 @@ var App = function App() {
       body: prepareData()
     }).then(function (res) {
       handleClear('complete');
+      console.log(res);
     });
   };
 
@@ -184,9 +185,9 @@ var App = function App() {
     data.append('jug', JSON.stringify(bets));
     data.append('action', 'recarga');
     data.append('tipo', 'tuquintico');
-    data.append('cedula', document.getElementById('cedulaH').value());
-    data.append('telefono', document.getElementById('telefonoH').value());
-    data.append('banco_id', document.getElementById('bancoH').value());
+    data.append('cedula', document.getElementById('cedulaH').value);
+    data.append('telefono', document.getElementById('telefonoH').value);
+    data.append('banco_id', document.getElementById('bancoH').value);
     data.append('monto', total);
     data.append('modo', 'web');
     data.append('numero', '0');
@@ -208,7 +209,7 @@ var App = function App() {
       { className: 'container-cluid' },
       React.createElement(
         'div',
-        { className: 'row justify-content-center' },
+        { className: 'row text-center' },
         React.createElement(
           'div',
           { className: 'btn-group', role: 'group', 'aria-label': 'Basic example' },
@@ -386,51 +387,51 @@ var App = function App() {
               { className: 'plays' },
               React.createElement(
                 'table',
-                { id: 'tablePlays', className: 'table tableFixHead' },
+                { className: 'table tableFixHead tablePlays' },
                 React.createElement(
                   'thead',
-                  null,
+                  { className: 'tablePlaysThead' },
                   React.createElement(
                     'tr',
-                    null,
+                    { className: 'tablePlaysTr' },
                     React.createElement(
                       'td',
-                      null,
+                      { className: 'tablePlaysTd' },
                       'Combinacion'
                     ),
                     React.createElement(
                       'td',
-                      null,
+                      { className: 'tablePlaysTd' },
                       'Signo'
                     ),
                     React.createElement(
                       'td',
-                      null,
+                      { className: 'tablePlaysTd' },
                       '\xA0'
                     )
                   )
                 ),
                 React.createElement(
                   'tbody',
-                  null,
+                  { className: 'tablePlaysTbody' },
                   bets.map(function (item, index) {
                     return React.createElement(
                       'tr',
-                      { key: index },
+                      { className: 'tablePlays', key: index },
                       React.createElement(
                         'td',
-                        null,
+                        { className: 'tablePlaysTbodyTd' },
                         item.n
                       ),
                       React.createElement(
                         'td',
-                        null,
+                        { className: 'tablePlaysTbodyTd' },
                         signName(item.s)
                       ),
                       React.createElement(
                         'td',
-                        null,
-                        React.createElement('i', { className: 'fa fa-trash text-sanger', onClick: function onClick() {
+                        { className: 'tablePlaysTbodyTd' },
+                        React.createElement('i', { className: 'fa fa-trash text-danger pointer', onClick: function onClick() {
                             return handleDelete(index);
                           } })
                       )

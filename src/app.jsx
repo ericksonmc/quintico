@@ -163,6 +163,7 @@ const App = () => {
     })
     .then((res)=>{
       handleClear('complete')
+      console.log(res)
     })
   }
 
@@ -171,9 +172,9 @@ const App = () => {
     data.append('jug', JSON.stringify(bets))
     data.append('action', 'recarga')
     data.append('tipo', 'tuquintico')
-    data.append('cedula', document.getElementById('cedulaH').value())
-    data.append('telefono', document.getElementById('telefonoH').value())
-    data.append('banco_id', document.getElementById('bancoH').value())
+    data.append('cedula', document.getElementById('cedulaH').value)
+    data.append('telefono', document.getElementById('telefonoH').value)
+    data.append('banco_id', document.getElementById('bancoH').value)
     data.append('monto', total)
     data.append('modo', 'web')
     data.append('numero','0')
@@ -190,7 +191,7 @@ const App = () => {
   return (
     <section>
       <div className="container-cluid">
-        <div className="row justify-content-center">
+        <div className="row text-center">
           <div className="btn-group" role="group" aria-label="Basic example">
             <button type="button" className="btn btn-secondary" onClick={() => setRandom(true)}>Random</button>
             <button type="button" className="btn btn-secondary" onClick={() => setRandom(false)}>Clasic</button>
@@ -257,21 +258,21 @@ const App = () => {
                 </div>
 
                 <div className="plays">
-                  <table id="tablePlays" className="table tableFixHead">
-                    <thead>
-                      <tr>
-                        <td>Combinacion</td>
-                        <td>Signo</td>
-                        <td>&nbsp;</td>
+                  <table className="table tableFixHead tablePlays">
+                    <thead className="tablePlaysThead">
+                      <tr className="tablePlaysTr">
+                        <td className="tablePlaysTd">Combinacion</td>
+                        <td className="tablePlaysTd">Signo</td>
+                        <td className="tablePlaysTd">&nbsp;</td>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="tablePlaysTbody">
                       {bets.map((item, index) => {
                         return (
-                          <tr key={index}>
-                            <td>{item.n}</td>
-                            <td>{signName(item.s)}</td>
-                            <td><i className="fa fa-trash text-sanger" onClick={() => handleDelete(index)}></i></td>
+                          <tr className="tablePlays" key={index}>
+                            <td className="tablePlaysTbodyTd">{item.n}</td>
+                            <td className="tablePlaysTbodyTd">{signName(item.s)}</td>
+                            <td className="tablePlaysTbodyTd"><i className="fa fa-trash text-danger pointer" onClick={() => handleDelete(index)}></i></td>
                           </tr>
                         )
                       })}
