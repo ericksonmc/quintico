@@ -87,7 +87,7 @@ var App = function App() {
       bets = _React$useState10[0],
       setBets = _React$useState10[1];
 
-  var _React$useState11 = React.useState({}),
+  var _React$useState11 = React.useState(JSON.parse(sessionStorage.getItem('info_tuquintico'))),
       _React$useState12 = _slicedToArray(_React$useState11, 2),
       quintico = _React$useState12[0],
       setQuintico = _React$useState12[1];
@@ -96,11 +96,6 @@ var App = function App() {
       _React$useState14 = _slicedToArray(_React$useState13, 2),
       total = _React$useState14[0],
       setTotal = _React$useState14[1];
-
-  React.useEffect(function () {
-    var info = JSON.parse(sessionStorage.getItem('info_quintico'));
-    setQuintico(info);
-  }, []);
 
   React.useEffect(function () {
     var totalPlays = bets.reduce(function (memo, data) {

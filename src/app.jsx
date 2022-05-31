@@ -87,13 +87,8 @@ const App = () => {
   ])
   const [combination, setCombination] = React.useState('')
   const [bets, setBets] = React.useState([])
-  const [quintico, setQuintico] = React.useState({})
+  const [quintico, setQuintico] = React.useState(JSON.parse(sessionStorage.getItem('info_tuquintico')))
   const [total, setTotal] = React.useState(0)
-
-  React.useEffect(()=>{
-    let info = JSON.parse(sessionStorage.getItem('info_quintico'))
-    setQuintico(info)
-  },[])
 
   React.useEffect(() => {
     const totalPlays = bets.reduce((memo, data)=> {
