@@ -87,6 +87,21 @@ var App = function App() {
       bets = _React$useState10[0],
       setBets = _React$useState10[1];
 
+  var _React$useState11 = React.useState({ monto: '', fecha: '', numero_sorteo: '' }),
+      _React$useState12 = _slicedToArray(_React$useState11, 2),
+      drawInfo = _React$useState12[0],
+      setDrawInfo = _React$useState12[1];
+
+  React.useEffect(function () {
+    var data = {
+      monto: document.getElementById('montoQuintico').textContent,
+      fecha: document.getElementById('fechaQuintico').textContent,
+      numero_sorteo: document.getElementById('montoQuintico').textContent
+    };
+    setDrawInfo(data);
+    console.log('data que danlui metio con java', drawInfo, data);
+  }, []);
+
   var handleSelectSign = function handleSelectSign(index) {
     var a = [].concat(_toConsumableArray(signs));
     console.log(a, a[index].checked);
@@ -331,17 +346,32 @@ var App = function App() {
               React.createElement(
                 'p',
                 null,
-                'Sorteo N# 1'
+                'Sorteo N# ',
+                React.createElement(
+                  'span',
+                  { id: 'montoQuintico' },
+                  ' N_SORTEO_AQUI '
+                )
               ),
               React.createElement(
                 'p',
                 null,
-                'Fecha: 06/07/2022 07:45PM'
+                'Fecha: ',
+                React.createElement(
+                  'span',
+                  { id: 'fechaQuintico' },
+                  ' FECHA_AQUI '
+                )
               ),
               React.createElement(
                 'p',
                 null,
-                'Precio'
+                'Precio: ',
+                React.createElement(
+                  'span',
+                  { id: 'montoQuintico' },
+                  ' MONTO_AQUI '
+                )
               )
             ),
             React.createElement(
@@ -364,7 +394,7 @@ var App = function App() {
                     React.createElement(
                       'td',
                       null,
-                      'Monto'
+                      'Signo'
                     ),
                     React.createElement(
                       'td',
@@ -383,24 +413,35 @@ var App = function App() {
                       React.createElement(
                         'td',
                         null,
-                        item.n,
-                        ' ',
+                        item.n
+                      ),
+                      React.createElement(
+                        'td',
+                        null,
                         signName(item.s)
                       ),
                       React.createElement(
                         'td',
                         null,
-                        item.m
-                      ),
-                      React.createElement(
-                        'td',
-                        null,
-                        React.createElement('i', { className: 'fa fa-trash', onClick: function onClick() {
+                        React.createElement('i', { className: 'fa fa-trash text-sanger', onClick: function onClick() {
                             return handleDelete(index);
                           } })
                       )
                     );
                   })
+                ),
+                React.createElement(
+                  'tfoot',
+                  null,
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(
+                      'td',
+                      { style: { with: '100%' } },
+                      'Total:'
+                    )
+                  )
                 )
               )
             )

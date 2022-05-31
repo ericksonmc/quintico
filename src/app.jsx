@@ -87,6 +87,17 @@ const App = () => {
   ])
   const [combination, setCombination] = React.useState('')
   const [bets, setBets] = React.useState([])
+  const [drawInfo, setDrawInfo] = React.useState({monto: '', fecha: '', numero_sorteo: ''})
+
+  React.useEffect(()=>{
+    let data = {
+      monto: document.getElementById('montoQuintico').textContent,
+      fecha: document.getElementById('fechaQuintico').textContent,
+      numero_sorteo: document.getElementById('montoQuintico').textContent
+    }
+    setDrawInfo(data)
+    console.log('data que danlui metio con java',drawInfo, data)
+  },[])
 
   const handleSelectSign = (index) => {
     const a = [...signs]
@@ -243,9 +254,9 @@ const App = () => {
               <div className="content-plays">
                 <div className="draw-info">
                   <p>Tu Quintico</p>
-                  <p>Sorteo N# 1</p>
-                  <p>Fecha: 06/07/2022 07:45PM</p>
-                  <p>Precio</p>
+                  <p>Sorteo N# <span id="montoQuintico"> N_SORTEO_AQUI </span></p>
+                  <p>Fecha: <span id="fechaQuintico"> FECHA_AQUI </span></p>
+                  <p>Precio: <span id="montoQuintico"> MONTO_AQUI </span></p>
                 </div>
 
                 <div className="plays">
@@ -253,7 +264,7 @@ const App = () => {
                     <thead>
                       <tr>
                         <td>Combinacion</td>
-                        <td>Monto</td>
+                        <td>Signo</td>
                         <td>&nbsp;</td>
                       </tr>
                     </thead>
@@ -261,13 +272,18 @@ const App = () => {
                       {bets.map((item, index) => {
                         return (
                           <tr key={index}>
-                            <td>{item.n} {signName(item.s)}</td>
-                            <td>{item.m}</td>
-                            <td><i className="fa fa-trash" onClick={() => handleDelete(index)}></i></td>
+                            <td>{item.n}</td>
+                            <td>{signName(item.s)}</td>
+                            <td><i className="fa fa-trash text-sanger" onClick={() => handleDelete(index)}></i></td>
                           </tr>
                         )
                       })}
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td style={{with: '100%'}}>Total:</td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>
