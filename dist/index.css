@@ -134,18 +134,18 @@ body,html{
   min-height: 320px;
 }
 
-.contentTaquilla .content-plays .plays table thead td.tablePlaysTd{
+.contentTaquilla .content-plays .plays table.tablePlays thead.tablePlaysThead td.tablePlaysTd{
   color: #676767;
   border-bottom: solid 2px #66c3e6;
 }
 
-.contentTaquilla .content-plays .plays table tbody td.tablePlaysTbodyTd {
+.contentTaquilla .content-plays .plays table.tablePlays tbody.tablePlaysTbody td.tablePlaysTbodyTd {
   font-size: 1.1rem;
   text-transform: capitalize;
   color: #676767;
   border-top: solid 2px #66c3e6;
 }
-.contentTaquilla .content-plays .plays table tbody td.tablePlaysTbodyTd:nth-child(1) {
+.contentTaquilla .content-plays .plays table.tablePlays tbody.tablePlaysTbody tr.tablePlaysTrTbody:nth-child(1) td.tablePlaysTbodyTd {
   border-top: 0px !important;
 }
 .contentTaquilla .content-plays .tableFixHead td{

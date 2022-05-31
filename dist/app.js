@@ -13,62 +13,62 @@ var App = function App() {
       categories = _React$useState4[0];
 
   var _React$useState5 = React.useState([{
-    imagen: "/dist/images/signos/esferas/aries.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/aries.png",
     checked: false,
     code: 1,
     name: 'aries'
   }, {
-    imagen: "/dist/images/signos/esferas/tauro.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/tauro.png",
     checked: false,
     code: 2,
     name: 'tauro'
   }, {
-    imagen: "/dist/images/signos/esferas/geminis.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/geminis.png",
     checked: false,
     code: 3,
     name: 'geminis'
   }, {
-    imagen: "/dist/images/signos/esferas/cancer.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/cancer.png",
     checked: false,
     code: 4,
     name: 'cancer'
   }, {
-    imagen: "/dist/images/signos/esferas/leo.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/leo.png",
     checked: false,
     code: 5,
     name: 'leo'
   }, {
-    imagen: "/dist/images/signos/esferas/virgo.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/virgo.png",
     checked: false,
     code: 6,
     name: 'virgo'
   }, {
-    imagen: "/dist/images/signos/esferas/libra.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/libra.png",
     checked: false,
     code: 7,
     name: 'libra'
   }, {
-    imagen: "/dist/images/signos/esferas/escorpio.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/escorpio.png",
     checked: false,
     code: 8,
     name: 'escorpio'
   }, {
-    imagen: "/dist/images/signos/esferas/sagitario.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/sagitario.png",
     checked: false,
     code: 9,
     name: 'sagitario'
   }, {
-    imagen: "/dist/images/signos/esferas/capricornio.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/capricornio.png",
     checked: false,
     code: 10,
     name: 'capricornio'
   }, {
-    imagen: "/dist/images/signos/esferas/acuario.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/acuario.png",
     checked: false,
     code: 11,
     name: 'acuario'
   }, {
-    imagen: "/dist/images/signos/esferas/piscis.png",
+    imagen: "./quintico-main/dist/images/signos/esferas/piscis.png",
     checked: false,
     code: 12,
     name: 'piscis'
@@ -171,12 +171,12 @@ var App = function App() {
     });
     setBets(copyBets);
 
-    fetch('../palmera.jsp', {
-      method: 'POST',
-      body: prepareData()
-    }).then(function (res) {
-      handleClear('complete');
-      console.log(res);
+    fetch('../palmera.jsp').then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      console.log(result);
+    }, function (error) {
+      console.log('Hubo un error', error);
     });
   };
 
@@ -417,7 +417,7 @@ var App = function App() {
                   bets.map(function (item, index) {
                     return React.createElement(
                       'tr',
-                      { className: 'tablePlays', key: index },
+                      { className: 'tablePlaysTrTbody', key: index },
                       React.createElement(
                         'td',
                         { className: 'tablePlaysTbodyTd' },

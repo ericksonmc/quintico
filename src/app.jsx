@@ -13,73 +13,73 @@ const App = () => {
   ])
   const [signs, setSign] = React.useState([
     {
-      imagen: "/dist/images/signos/esferas/aries.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/aries.png",
       checked: false,
       code: 1,
       name: 'aries'
     },
     {
-      imagen: "/dist/images/signos/esferas/tauro.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/tauro.png",
       checked: false,
       code: 2,
       name: 'tauro'
     },
     {
-      imagen: "/dist/images/signos/esferas/geminis.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/geminis.png",
       checked: false,
       code: 3,
       name: 'geminis'
     },
     {
-      imagen: "/dist/images/signos/esferas/cancer.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/cancer.png",
       checked: false,
       code: 4,
       name: 'cancer'
     },
     {
-      imagen: "/dist/images/signos/esferas/leo.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/leo.png",
       checked: false,
       code: 5,
       name: 'leo'
     },
     {
-      imagen: "/dist/images/signos/esferas/virgo.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/virgo.png",
       checked: false,
       code: 6,
       name: 'virgo'
     },
     {
-      imagen: "/dist/images/signos/esferas/libra.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/libra.png",
       checked: false,
       code: 7,
       name: 'libra'
     },
     {
-      imagen: "/dist/images/signos/esferas/escorpio.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/escorpio.png",
       checked: false,
       code: 8,
       name: 'escorpio'
     },
     {
-      imagen: "/dist/images/signos/esferas/sagitario.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/sagitario.png",
       checked: false,
       code: 9,
       name: 'sagitario'
     },
     {
-      imagen: "/dist/images/signos/esferas/capricornio.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/capricornio.png",
       checked: false,
       code: 10,
       name: 'capricornio'
     },
     {
-      imagen: "/dist/images/signos/esferas/acuario.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/acuario.png",
       checked: false,
       code: 11,
       name: 'acuario'
     },
     {
-      imagen: "/dist/images/signos/esferas/piscis.png",
+      imagen: "./quintico-main/dist/images/signos/esferas/piscis.png",
       checked: false,
       code: 12,
       name: 'piscis'
@@ -157,14 +157,14 @@ const App = () => {
     copyBets.map((bet, i) => bet.i = i)
     setBets(copyBets)
 
-    fetch('../palmera.jsp', {
-      method: 'POST',
-      body: prepareData()
-    })
-    .then((res)=>{
-      handleClear('complete')
-      console.log(res)
-    })
+    fetch('../palmera.jsp')
+    .then(res => res.json())
+    .then((result) => {
+        console.log(result)
+      },(error) => {
+        console.log('Hubo un error', error)
+      }
+    )
   }
 
   const prepareData = () => {
@@ -269,7 +269,7 @@ const App = () => {
                     <tbody className="tablePlaysTbody">
                       {bets.map((item, index) => {
                         return (
-                          <tr className="tablePlays" key={index}>
+                          <tr className="tablePlaysTrTbody" key={index}>
                             <td className="tablePlaysTbodyTd">{item.n}</td>
                             <td className="tablePlaysTbodyTd">{signName(item.s)}</td>
                             <td className="tablePlaysTbodyTd"><i className="fa fa-trash text-danger pointer" onClick={() => handleDelete(index)}></i></td>
