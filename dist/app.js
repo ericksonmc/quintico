@@ -174,8 +174,8 @@ var App = function App() {
       method: 'post',
       url: '../palmera.jsp',
       data: prepareData()
-    }).then(function (response) {
-      console.log(response);
+    }).then(function (res) {
+      console.log(res.response);
       // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
@@ -188,6 +188,7 @@ var App = function App() {
     data.append('cedula', document.getElementById('cedulaH').value);
     data.append('telefono', document.getElementById('telefonoH').value);
     data.append('banco_id', document.getElementById('bancoH').value);
+    data.append('nombre', document.getElementById('nombreH').value);
     data.append('monto', total);
     data.append('modo', 'web');
     data.append('numero', '0');
