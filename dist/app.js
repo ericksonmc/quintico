@@ -170,13 +170,13 @@ var App = function App() {
       return bet.i = i;
     });
     setBets(copyBets);
-
-    fetch('../palmera.jsp').then(function (res) {
-      return res.json();
-    }).then(function (result) {
-      console.log(result);
-    }, function (error) {
-      console.log('Hubo un error', error);
+    axios({
+      method: 'post',
+      url: '../palmera.jsp',
+      data: prepareData()
+    }).then(function (response) {
+      console.log(response);
+      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 

@@ -156,15 +156,15 @@ const App = () => {
     let copyBets = [...bets]
     copyBets.map((bet, i) => bet.i = i)
     setBets(copyBets)
-
-    fetch('../palmera.jsp')
-    .then(res => res.json())
-    .then((result) => {
-        console.log(result)
-      },(error) => {
-        console.log('Hubo un error', error)
-      }
-    )
+    axios({
+      method: 'post',
+      url: '../palmera.jsp',
+      data: prepareData()
+    })
+    .then(function (response) {
+      console.log(response)
+      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+    });
   }
 
   const prepareData = () => {

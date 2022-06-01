@@ -165,7 +165,7 @@ body,html{
   width: 100%;
 }
 
-.contentTaquilla table.tablePlays thead, tbody, tr, td, th { display: block; }
+.contentTaquilla table.tablePlays thead.tablePlaysThead, tbody.tablePlaysTbody, tr, td, th { display: block; }
 
 .contentTaquilla table.tablePlays tr:after {
   content: ' ';
